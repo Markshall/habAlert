@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>habAlert</title>
+		<link rel="stylesheet" href="css/habalert.css" />
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:400,500,700" />
+	</head>
+
+	<body>
+		
+		<a href="#" id="openhabAlert">Open a habAlert</a>
+		
+		<br /><br />
+		
+		<fieldset>
+			<legend>Create your own habAlert</legend>
+			<table>
+				<tr>
+					<td>Title:</td>
+					<td><input type="text" id="title" /></td>
+				</tr>
+				<tr>
+					<td>Image URL:</td>
+					<td><input type="text" id="image" /> <em>(optional)</em></td>
+				</tr>
+				<tr>
+					<td>Lead title:</td>
+					<td><input type="text" id="leadTitle" /> <em>(optional)</em></td>
+				</tr>
+				<tr>
+					<td>Body content:</td>
+					<td><input type="text" id="body" /> <em>(text only)</em></td>
+				</tr>
+				<tr>
+					<td>Link URL:</td>
+					<td><input type="text" id="linkURL" /></td>
+				</tr>
+				<tr>
+					<td>Link label:</td>
+					<td><input type="text" id="linkLabel" /></td>
+				</tr>
+				<tr>
+					<td>Button URL:</td>
+					<td><input type="text" id="buttonURL" /></td>
+				</tr>
+				<tr>
+					<td>Button label:</td>
+					<td><input type="text" id="buttonLabel" /></td>
+				</tr>
+				<tr>
+					<td><button id="makeit">Make it</button></td>
+				</tr>
+			</table>
+		</fieldset>
+		
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="js/habAlert.js"></script>
+		<script>
+			$('#makeit').on('click', function() {
+				var title       = $('#title').val() || 'habAlert',
+					image       = $('#image').val(),
+					leadTitle   = $('#leadTitle').val(),
+					body        = $('#body').val() || 'Test habAlert',
+					linkURL     = $('#linkURL').val() || '#',
+					linkLabel   = $('#linkLabel').val() || 'Link',
+					buttonURL   = $('#buttonURL').val() || '#',
+					buttonLabel = $('#buttonLabel').val() || 'Button',
+					allowedExts = ['png', 'gif', 'jpg', 'jpeg', 'bmp'],
+					extFound    = false;
+				
+				if (image.length > 0) {
+					allowedExts.forEach(function(e) {
+						console.log(e);
+						if (image.split('.').pop().toLowerCase() == e)
+							extFound = true;
+					});
+				}
+				
+				if (extFound === false)
+					image = '';
+				
+				$.habAlert({
+					title: title,
+					image: image,
+					leadTitle: leadTitle,
+					body: body,
+					bodyType: 'text',
+					controls: {
+						links: [
+							{href: linkURL, text: linkLabel}
+						],
+						buttons: [
+							{href: buttonURL, text: buttonLabel}
+						]
+					}
+				});
+			});
+			
+			$('#openhabAlert').on('click', function() {
+				$.habAlert({
+					title: 'habAlert Poll',
+					image: 'img/qmarks.png',
+					leadTitle: 'Answer our poll!',
+					body: '<p><strong>Please</strong> answer our poll, we appreciate all feedback.</p>',
+					controls: {
+						links: [
+							{href: '#rofl', text: 'View previous polls'}
+						],
+						buttons: [
+							{href: 'index.html', text: 'ok let\'s go'}
+						]
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
